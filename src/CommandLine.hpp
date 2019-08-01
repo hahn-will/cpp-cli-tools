@@ -18,17 +18,21 @@ class CommandLine {
   public:
     CommandLine(int, char **);
     void AddSingleUseArg(argument);
+    void SetUsage(std::string);
     bool ParseArguments();
     std::string Errors();
     std::vector<std::string> GetDefaultTypeArgs();
     std::vector<argument> GetRemainingArguments();
   private:
     std::string errors;
+    std::string usage_str;
     std::string executable_name;
     std::vector<std::string> default_arg_types;
     std::vector<std::string> arguments;
     std::vector<argument> other_args;
     std::map<std::string, unsigned> flag_map;
+
+    void PrintHelpSection();
 };
 
 #endif

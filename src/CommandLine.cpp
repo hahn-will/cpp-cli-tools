@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <utility>
 #include <iostream>
+#include <iomanip>
 
 #define CHAR_TO_STRING(a)\
   std::string(1, (a))
@@ -31,7 +32,31 @@ bool flag_in_map(std::map<std::string, unsigned> map, std::string flag) {
   return map.find(flag) != map.end();
 }
 
+void CommandLine::PrintHelpSection() {
+  std::cout << executable_name << " [options] " << usage_str << std::endl;
+  for (const argument &a : other_args) {
+    std::cout << "    ";
+    if (a.short_flag)
+      std::cout << "-" << a.short_flag << " ";
+    else
+      std::cout << "   ";
+
+    std::cout << "--" << a.long_flag;
+
+    std::cout << std::setw(20) << a.help_section << std::endl;
+  }
+}
+
+void CommandLine::SetUsage(std::string usage_string) {
+  usage_str = usage_string;
+}
+
 bool CommandLine::ParseArguments() {
+  for (const std::string &s : arguments) {
+    if (s == "--help" || s == "-h") {
+      PrintHelpSection();
+    }
+  }
   for (unsigned i = 0; i < arguments.size(); i++) {
     if (arguments[i].size() > 0 && arguments[i].at(0) == '-') {
       if (arguments[i].size() > 0 && arguments[i].at(1) == '-') {
