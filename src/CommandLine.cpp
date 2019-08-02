@@ -18,6 +18,14 @@ CommandLine::CommandLine(int argc, char **argv) {
 
   for (int i = 1; i < argc; i++)
     arguments.push_back(argv[i]);
+
+  usage_str = "";
+}
+
+void CommandLine::AddSingleUseArgs(const argument *args, const int num_args) {
+  for (int i = 0; i < num_args; i++) {
+    AddSingleUseArg(args[i]);
+  }
 }
 
 void CommandLine::AddSingleUseArg(argument arg) {
@@ -41,9 +49,13 @@ void CommandLine::PrintHelpSection() {
     else
       std::cout << "   ";
 
-    std::cout << "--" << a.long_flag;
+        
+    std::cout << std::left << "--";
+    std::cout.width(13);
 
-    std::cout << std::setw(20) << a.help_section << std::endl;
+    std::cout << std::left << a.long_flag;
+
+    std::cout << a.help_section << std::endl;
   }
 }
 

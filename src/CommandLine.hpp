@@ -18,6 +18,7 @@ class CommandLine {
   public:
     CommandLine(int, char **);
     void AddSingleUseArg(argument);
+    void AddSingleUseArgs(const argument *, const int);
     void SetUsage(std::string);
     bool ParseArguments();
     std::string Errors();
